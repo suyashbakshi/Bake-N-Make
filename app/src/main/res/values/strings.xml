@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Bake N \'Make</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_recipe_details">Recipe Details</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="steps">Steps:</string>
+    <string name="title_activity_video">VideoActivity</string>
+    <string name="loading">loading...</string>
+    <string name="no_video">No video available for this step...</string>
+</resources>
