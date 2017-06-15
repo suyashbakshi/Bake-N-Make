@@ -3,6 +3,7 @@ package net.ddns.suyashbakshi.bakenmake;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
+        Log.v("instance_tag","onCreateView");
         mAdapter = new MainRecipeListAdapter(getContext(),0,new ArrayList<String>());
         ListView recipeListView = (ListView)rootView.findViewById(R.id.recipeListView);
         recipeListView.setAdapter(mAdapter);

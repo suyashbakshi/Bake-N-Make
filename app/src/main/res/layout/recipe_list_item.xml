@@ -1,57 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:src="@drawable/food" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="5dp">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_weight="4"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:src="@mipmap/food" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="1dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="1dp"
-            android:layout_weight="4"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/recipe_list_tv"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="start"
-                android:layout_weight="4"
-                android:textColor="#ffffff"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/serving_tv"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:textColor="#ffffff"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/fav_img"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/recipe_list_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:src="@mipmap/disabled_fav"/>
+            android:layout_gravity="start"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/serving_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#747474"
+            android:textSize="15dp" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/fav_img"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_weight="1"
+        android:src="@drawable/disabled_fav" />
 </LinearLayout>

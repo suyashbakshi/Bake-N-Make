@@ -8,7 +8,7 @@
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:layout_marginRight="5dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/play_btn"
         android:id="@+id/play_step"
         android:layout_gravity="center_horizontal"/>
 
@@ -17,6 +17,7 @@
         android:layout_height="match_parent"
         android:id="@+id/recipe_description_tv"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:textColor="#747474"/>
 
 </LinearLayout>

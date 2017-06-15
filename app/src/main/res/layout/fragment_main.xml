@@ -4,7 +4,7 @@
     android:id="@+id/content_main"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/main_background"
+    android:background="#ffffff"
     tools:context="net.ddns.suyashbakshi.bakenmake.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
