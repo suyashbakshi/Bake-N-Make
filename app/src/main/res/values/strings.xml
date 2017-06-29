@@ -7,4 +7,7 @@
     <string name="title_activity_video">VideoActivity</string>
     <string name="loading">loading...</string>
     <string name="no_video">No video available for this step...</string>
+    <string name="last_step_msg">All steps finish. Enjoy!</string>
+    <string name="first_step_msg">It\'s the first step!</string>
+    <string name="no_network">No internet available, Check your connection</string>
 </resources>

@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -20,24 +20,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RecipeDetails"
+            android:name=".Activity.RecipeDetails"
             android:label="@string/title_activity_recipe_details"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".Activity.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.ddns.suyashbakshi.bakenmake.MainActivity" />
+                android:value="net.ddns.suyashbakshi.bakenmake.Activity.MainActivity" />
         </activity>
         <activity
-            android:name=".VideoActivity"
+            android:name=".Activity.VideoActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_video"
-            android:parentActivityName=".RecipeDetails"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="orientation|screenSize">
+            android:parentActivityName=".Activity.RecipeDetails"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="net.ddns.suyashbakshi.bakenmake.RecipeDetails" />
+                android:value="net.ddns.suyashbakshi.bakenmake.Activity.RecipeDetails" />
         </activity>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

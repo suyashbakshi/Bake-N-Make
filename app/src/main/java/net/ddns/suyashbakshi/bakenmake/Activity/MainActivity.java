@@ -1,4 +1,4 @@
-package net.ddns.suyashbakshi.bakenmake;
+package net.ddns.suyashbakshi.bakenmake.Activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import net.ddns.suyashbakshi.bakenmake.R;
 
 public class MainActivity extends AppCompatActivity {
 

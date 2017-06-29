@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="8dp"
-    tools:context="net.ddns.suyashbakshi.bakenmake.RecipeDetailsFragment"
+    tools:context="net.ddns.suyashbakshi.bakenmake.Activity.RecipeDetailsFragment"
     tools:showIn="@layout/activity_recipe_details">
 
     <TextView

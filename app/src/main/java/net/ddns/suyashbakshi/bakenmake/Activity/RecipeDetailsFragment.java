@@ -1,22 +1,17 @@
-package net.ddns.suyashbakshi.bakenmake;
+package net.ddns.suyashbakshi.bakenmake.Activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.widget.ImageView;
-import android.widget.MediaController;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
+
+import net.ddns.suyashbakshi.bakenmake.Adapters.RecipeStepListAdapter;
+import net.ddns.suyashbakshi.bakenmake.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,15 +62,24 @@ public class RecipeDetailsFragment extends Fragment {
                 stepListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent = new Intent(getContext(),VideoActivity.class);
+
+                        ((Callback) getActivity())
+                                .onItemSelected(adapterView.getItemAtPosition(i).toString());
+                        /*Intent intent = new Intent(getContext(),VideoActivity.class);
                         intent.putExtra(Intent.EXTRA_TEXT,adapterView.getItemAtPosition(i).toString());
-                        startActivity(intent);
+                        startActivity(intent);*/
                     }
                 });
+
 
             }
         }catch (JSONException ex){}
 
         return rootView;
+    }
+
+    public interface Callback{
+
+        public void onItemSelected(String data);
     }
 }

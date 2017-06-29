@@ -1,14 +1,10 @@
-package net.ddns.suyashbakshi.bakenmake;
+package net.ddns.suyashbakshi.bakenmake.Activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+
+import net.ddns.suyashbakshi.bakenmake.R;
 
 public class VideoActivity extends AppCompatActivity {
 
@@ -18,6 +14,12 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         Log.v("instance_tag", "onCreate");
+
+        VideoActivityFragment videoActivityFragment = new VideoActivityFragment();
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.video_container,videoActivityFragment)
+                .commit();
     }
 
 }

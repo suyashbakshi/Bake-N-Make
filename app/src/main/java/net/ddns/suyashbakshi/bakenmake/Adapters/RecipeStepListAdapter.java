@@ -1,4 +1,4 @@
-package net.ddns.suyashbakshi.bakenmake;
+package net.ddns.suyashbakshi.bakenmake.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import net.ddns.suyashbakshi.bakenmake.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

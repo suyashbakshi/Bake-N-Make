@@ -1,7 +1,9 @@
-package net.ddns.suyashbakshi.bakenmake;
+package net.ddns.suyashbakshi.bakenmake.NetworkServices;
 
 import android.content.Context;
 import android.os.AsyncTask;
+
+import net.ddns.suyashbakshi.bakenmake.Adapters.MainRecipeListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

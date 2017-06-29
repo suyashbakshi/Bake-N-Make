@@ -2,10 +2,10 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_container"
-    android:name="net.ddns.suyashbakshi.bakenmake.MainActivityFragment"
+    android:name="net.ddns.suyashbakshi.bakenmake.Activity.MainActivityFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="net.ddns.suyashbakshi.bakenmake.MainActivityFragment"
+    tools:context="net.ddns.suyashbakshi.bakenmake.Activity.MainActivityFragment"
     tools:layout="@android:layout/list_content">
 </fragment>
