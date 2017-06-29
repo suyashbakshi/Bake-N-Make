@@ -90,6 +90,12 @@ public class VideoActivityFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        player.release();
+    }
+
     public VideoActivityFragment() {
     }
 

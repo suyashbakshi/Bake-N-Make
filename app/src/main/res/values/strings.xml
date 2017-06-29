@@ -10,4 +10,6 @@
     <string name="last_step_msg">All steps finish. Enjoy!</string>
     <string name="first_step_msg">It\'s the first step!</string>
     <string name="no_network">No internet available, Check your connection</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

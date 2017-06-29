@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 public class MainActivityFragment extends Fragment {
 
-    private MainRecipeListAdapter mAdapter;
+    public static MainRecipeListAdapter mAdapter;
 
     public MainActivityFragment() {
     }
