@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import net.ddns.suyashbakshi.bakenmake.Adapters.MainRecipeListAdapter;
+import net.ddns.suyashbakshi.bakenmake.Utils.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,7 @@ public class FetchRecipe extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        Utility.result = s;
         mAdapter.clear();
         try {
             JSONArray array = new JSONArray(s);

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import net.ddns.suyashbakshi.bakenmake.Activity.MainActivity;
+import net.ddns.suyashbakshi.bakenmake.Activity.RecipeDetails;
 
 /**
  * Implementation of App Widget functionality.
@@ -34,16 +35,15 @@ public class GridWidgetProvider extends AppWidgetProvider {
 
         for (int i = 0; i < appWidgetIds.length; i++) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.grid_widget_provider);
-            Log.v("Widget_check","Update");
             Intent adapterIntent = new Intent(context, WidgetService.class);
             adapterIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
 
             views.setRemoteAdapter(R.id.widget_grid_view,adapterIntent);
 
-            Intent clickIntent = new Intent(context, MainActivity.class);
+            Intent clickIntent = new Intent(context, RecipeDetails.class);
             PendingIntent pi = PendingIntent.getActivity(context,0,clickIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-            views.setOnClickPendingIntent(R.id.widget_grid_view,pi);
+            views.setPendingIntentTemplate(R.id.widget_grid_view,pi);
             appWidgetManager.updateAppWidget(appWidgetIds[i],views);
 
             views.setEmptyView(R.id.widget_grid_view,R.id.empty_view);

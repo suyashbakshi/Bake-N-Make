@@ -10,6 +10,8 @@ import android.net.NetworkInfo;
 
 public class Utility {
 
+    public static String result;
+
     public static boolean isOnline(Context context){
         ConnectivityManager manager = (ConnectivityManager)context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);

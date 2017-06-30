@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import net.ddns.suyashbakshi.bakenmake.Utils.Utility;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -29,18 +35,9 @@ class GridProvider implements RemoteViewsService.RemoteViewsFactory {
     private Context context = null;
     private int appWidgetId;
 
-    private static final String[] items={"lorem", "ipsum", "dolor",
-            "sit", "amet", "consectetuer",
-            "adipiscing", "elit", "morbi",
-            "vel", "ligula", "vitae",
-            "arcu", "aliquet", "mollis",
-            "etiam", "vel", "erat",
-            "placerat", "ante",
-            "porttitor", "sodales",
-            "pellentesque", "augue",
-            "purus"};
+    private static ArrayList<String> items = new ArrayList<>();
 
-    public GridProvider(Context context, Intent intent){
+    public GridProvider(Context context, Intent intent) {
         this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -52,34 +49,47 @@ class GridProvider implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
+        JSONArray array = null;
+        try {
+            array = new JSONArray(Utility.result);
 
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject item = array.getJSONObject(i);
+                items.add(item.toString());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onDestroy() {
-
+        items.clear();
     }
 
     @Override
     public int getCount() {
-        return(items.length);
+        return (items.size());
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
-        RemoteViews row=new RemoteViews(context.getPackageName(),
+        RemoteViews row = new RemoteViews(context.getPackageName(),
                 R.layout.widget_grid_item);
 
-        row.setTextViewText(R.id.widget_grid_view_tv, items[i]);
+        try {
+            JSONObject jsonObject = new JSONObject(items.get(i));
 
-        Intent intent=new Intent();
-        Bundle extras=new Bundle();
+            row.setTextViewText(R.id.widget_grid_view_tv, jsonObject.getString("name"));
 
-        extras.putString(Intent.EXTRA_TEXT, items[i]);
-        intent.putExtras(extras);
-        row.setOnClickFillInIntent(R.id.widget_grid_view_tv, intent);
+            Intent intent = new Intent();
 
-        return(row);
+            intent.putExtra(Intent.EXTRA_TEXT, items.get(i));
+            row.setOnClickFillInIntent(R.id.widget_grid_view_tv, intent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return (row);
     }
 
     @Override
@@ -89,7 +99,7 @@ class GridProvider implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getViewTypeCount() {
-        return(1);
+        return (1);
     }
 
     @Override
