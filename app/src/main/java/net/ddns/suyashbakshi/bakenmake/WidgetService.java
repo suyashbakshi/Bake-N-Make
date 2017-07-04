@@ -3,7 +3,7 @@ package net.ddns.suyashbakshi.bakenmake;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -13,10 +13,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 /**
- * Created by suyas on 6/29/2017.
+ * Created by suyash on 6/29/2017.
  */
 
 public class WidgetService extends RemoteViewsService {
@@ -49,9 +54,23 @@ class GridProvider implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json")
+                .build();
+
+        Response response = null;
+
+        try {
+            response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         JSONArray array = null;
         try {
-            array = new JSONArray(Utility.result);
+            array = new JSONArray(response.body().string());
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject item = array.getJSONObject(i);
@@ -59,6 +78,10 @@ class GridProvider implements RemoteViewsService.RemoteViewsFactory {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e){
+            items.add("Nothing to display");
         }
     }
 
