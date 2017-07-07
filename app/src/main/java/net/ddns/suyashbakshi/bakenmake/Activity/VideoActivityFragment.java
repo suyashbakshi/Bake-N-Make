@@ -218,6 +218,7 @@ public class VideoActivityFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IndexOutOfBoundsException e) {
+                        --i;
                         Toast.makeText(getContext(), getString(R.string.last_step_msg), Toast.LENGTH_SHORT).show();
                         //getActivity().onBackPressed();
                     }
@@ -245,6 +246,7 @@ public class VideoActivityFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IndexOutOfBoundsException e) {
+                        ++i;
                         Toast.makeText(getContext(), getString(R.string.first_step_msg), Toast.LENGTH_SHORT).show();
                     }
                 }

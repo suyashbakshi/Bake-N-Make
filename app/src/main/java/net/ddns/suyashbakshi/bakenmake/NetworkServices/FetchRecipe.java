@@ -2,9 +2,12 @@ package net.ddns.suyashbakshi.bakenmake.NetworkServices;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.ddns.suyashbakshi.bakenmake.Adapters.MainRecipeListAdapter;
+import net.ddns.suyashbakshi.bakenmake.R;
 import net.ddns.suyashbakshi.bakenmake.Utils.Utility;
 
 import org.json.JSONArray;
@@ -33,7 +36,10 @@ public class FetchRecipe extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-
+        if (TextUtils.isEmpty(s)) {
+            Toast.makeText(mContext, R.string.no_data,Toast.LENGTH_LONG).show();
+            return;
+        }
         try {
             JSONArray array = new JSONArray(s);
             for (int i = 0; i < array.length(); i++) {
