@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.widget.RemoteViews;
 import net.ddns.suyashbakshi.bakenmake.Activity.MainActivity;
 import net.ddns.suyashbakshi.bakenmake.Activity.RecipeDetails;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +34,6 @@ public class GridWidgetProvider extends AppWidgetProvider {
         RemoteViews rv = new RemoteViews(context.getPackageName(),R.layout.grid_widget_provider);
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
-
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
@@ -43,15 +44,25 @@ public class GridWidgetProvider extends AppWidgetProvider {
             SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.widget_pref), Context.MODE_PRIVATE);
             try {
                 JSONObject fav_item = new JSONObject(preferences.getString(context.getString(R.string.widget_pref), ""));
+                JSONArray ingredients = fav_item.getJSONArray("ingredients");
+                StringBuffer buff = new StringBuffer();
+
                 Log.v("Widget_update_check", fav_item.getString("name"));
                 views.setTextViewText(R.id.widget_name_tv, fav_item.getString("name"));
-                views.setTextViewText(R.id.widget_ingredients_tv, fav_item.getString("servings"));
+
+                for (int j = 0; j < ingredients.length(); j++) {
+                    JSONObject item = ingredients.getJSONObject(j);
+                    buff.append("-> " + item.getString("ingredient") + "\n    Quantity : " + item.getString("quantity") + " " + item.getString("measure") + "\n");
+                }
+
+                views.setTextViewText(R.id.widget_ingredients_tv, buff.toString());
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            appWidgetManager.updateAppWidget(appWidgetIds[i],views);
-            views.setEmptyView(R.id.widget_name_tv, R.id.empty_view);;
+            AppWidgetManager.getInstance(context).updateAppWidget(
+                    new ComponentName(context, GridWidgetProvider.class), views);
+            views.setEmptyView(R.id.widget_name_tv, R.id.empty_view);
         }
         super.onUpdate(context,appWidgetManager,appWidgetIds);
     }

@@ -73,7 +73,11 @@ public class MainRecipeListAdapter extends RecyclerView.Adapter<MainRecipeListAd
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(context.getString(R.string.widget_pref), item.toString());
                     editor.apply();
-
+                    try {
+                        Toast.makeText(context,item.getString("name")+" showing on widget",Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     //broadcast an intent to update all the widgets.
                     Intent intent = new Intent(context, GridWidgetProvider.class);
                     intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
