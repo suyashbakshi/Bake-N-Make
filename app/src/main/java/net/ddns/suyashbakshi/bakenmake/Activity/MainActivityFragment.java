@@ -3,6 +3,8 @@ package net.ddns.suyashbakshi.bakenmake.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,18 +37,10 @@ public class MainActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         Log.v("instance_tag","onCreateView");
-        mAdapter = new MainRecipeListAdapter(getContext(),0,new ArrayList<String>());
-        GridView recipeListView = (GridView)rootView.findViewById(R.id.recipeListView);
+        mAdapter = new MainRecipeListAdapter(new ArrayList<String>(),getContext());
+        RecyclerView recipeListView = (RecyclerView)rootView.findViewById(R.id.recipeListView);
         recipeListView.setAdapter(mAdapter);
-
-        recipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String recipe = mAdapter.getItem(i).toString();
-                Intent detailIntent = new Intent(getContext(),RecipeDetails.class).putExtra(Intent.EXTRA_TEXT,recipe);
-                startActivity(detailIntent);
-            }
-        });
+        recipeListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if(Utility.isOnline(getContext()))
             updateRecipeList();
         else
@@ -56,6 +50,10 @@ public class MainActivityFragment extends Fragment {
 
     private void updateRecipeList() {
         FetchRecipe fetch = new FetchRecipe(getContext(),mAdapter);
-        fetch.execute();
+        try {
+            fetch.execute();
+        }catch(IllegalStateException e){
+            e.printStackTrace();
+        }
     }
 }

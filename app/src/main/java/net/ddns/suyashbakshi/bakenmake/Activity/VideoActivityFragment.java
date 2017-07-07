@@ -3,6 +3,7 @@ package net.ddns.suyashbakshi.bakenmake.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 import net.ddns.suyashbakshi.bakenmake.R;
 
@@ -57,6 +60,7 @@ public class VideoActivityFragment extends Fragment {
 
     private TextView descTv;
     private Button play_next, play_previous;
+    private ImageView thumbnail;
 
     TrackSelector trackSelector;
     LoadControl loadControl;
@@ -66,7 +70,7 @@ public class VideoActivityFragment extends Fragment {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Log.v("instance_tag", "onConfigChanged");
-        if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //Toast.makeText(getContext(), "Portrait", Toast.LENGTH_SHORT).show();
             descTv.setVisibility(View.VISIBLE);
             play_next.setVisibility(View.VISIBLE);
@@ -77,8 +81,7 @@ public class VideoActivityFragment extends Fragment {
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
             videoView.setLayoutParams(layoutParams);
-        }
-        else if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             descTv.setVisibility(View.GONE);
             play_next.setVisibility(View.GONE);
             play_previous.setVisibility(View.GONE);
@@ -115,15 +118,16 @@ public class VideoActivityFragment extends Fragment {
         descTv = (TextView) rootView.findViewById(R.id.video_description_tv);
         play_next = (Button) rootView.findViewById(R.id.play_next_button);
         play_previous = (Button) rootView.findViewById(R.id.play_previous_button);
+        thumbnail = (ImageView) rootView.findViewById(R.id.video_thumbnail);
 //        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 //                LinearLayout.LayoutParams.WRAP_CONTENT,
 //                LinearLayout.LayoutParams.WRAP_CONTENT
 //        );
 //        videoView.setLayoutParams(layoutParams);
-        if(player == null) {
+        if (player == null) {
             trackSelector = new DefaultTrackSelector();
             loadControl = new DefaultLoadControl();
-            player = ExoPlayerFactory.newSimpleInstance(getContext(),trackSelector,loadControl);
+            player = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
             videoView.setPlayer(player);
 
             player.addListener(new ExoPlayer.EventListener() {
@@ -149,7 +153,7 @@ public class VideoActivityFragment extends Fragment {
 
                 @Override
                 public void onPlayerError(ExoPlaybackException error) {
-                    Toast.makeText(getContext(),getString(R.string.no_video),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.no_video), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -169,85 +173,85 @@ public class VideoActivityFragment extends Fragment {
 
         //if (intent != null) {
 
-            try {
-                if(!RecipeDetails.mTwoPane)
-                    data = new JSONObject(intent.getStringExtra(Intent.EXTRA_TEXT));
-                else {
-                    if(args!=null)
-                        data = new JSONObject(args.getString("DATA"));
-                    else
-                        return rootView;
-                }
-                if (savedInstanceState != null) {
-                    position = savedInstanceState.getInt("position");
-                    data = new JSONObject(RecipeDetailsFragment.mAdapter.getItem(savedInstanceState.getInt("item")).toString());
-                }
-                i = data.getInt("id");
-                Log.v("test_tag", data.toString());
-                descTv.setText(data.getString("description"));
-                String mUriStr = data.get("videoURL").toString();
-                if (mUriStr.equals("")) {
-                    mUriStr = data.get("thumbnailURL").toString();
-                }
-                Uri uri = Uri.parse(mUriStr);
-
-                final String userAgent = Util.getUserAgent(getContext(), "BakeNMake");
-                MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
-                        getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
-
-                player.prepare(mediaSource);
-                player.setPlayWhenReady(true);
-                play_next.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        try {
-                            //progressDialog.show();
-                            position=0;
-                            JSONObject next = new JSONObject(RecipeDetailsFragment.mAdapter.getItem(++i).toString());
-                            Log.v("test_tag_next", next.toString());
-
-                            player.prepare(new ExtractorMediaSource(Uri.parse(next.getString("videoURL")),
-                                    new DefaultDataSourceFactory(getContext(),userAgent),
-                                    new DefaultExtractorsFactory(),
-                                    null,
-                                    null));
-
-                            descTv.setText(next.getString("description"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (IndexOutOfBoundsException e) {
-                            Toast.makeText(getContext(), getString(R.string.last_step_msg), Toast.LENGTH_SHORT).show();
-                            //getActivity().onBackPressed();
-                        }
-                    }
-                });
-
-                play_previous.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        try {
-                            //progressDialog.show();
-                            position=0;
-                            JSONObject next = new JSONObject(RecipeDetailsFragment.mAdapter.getItem(--i).toString());
-                            Log.v("test_tag_next", next.toString());
-
-                            player.prepare(new ExtractorMediaSource(Uri.parse(next.getString("videoURL")),
-                                    new DefaultDataSourceFactory(getContext(),userAgent),
-                                    new DefaultExtractorsFactory(),
-                                    null,
-                                    null));
-
-                            descTv.setText(next.getString("description"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (IndexOutOfBoundsException e) {
-                            Toast.makeText(getContext(), getString(R.string.first_step_msg), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            } catch (JSONException ex) {
-                ex.printStackTrace();
+        try {
+            if (!RecipeDetails.mTwoPane)
+                data = new JSONObject(intent.getStringExtra(Intent.EXTRA_TEXT));
+            else {
+                if (args != null)
+                    data = new JSONObject(args.getString("DATA"));
+                else
+                    return rootView;
             }
+            i = data.getInt("id");
+            Log.v("test_tag", data.toString());
+            descTv.setText(data.getString("description"));
+            String mUriStr = data.get("videoURL").toString();
+            if (!data.getString("thumbnailURL").equalsIgnoreCase(""))
+                Picasso.with(getContext()).load(data.getString("thumbnailURL")).into(thumbnail);
+
+            Uri uri = Uri.parse(mUriStr);
+
+            final String userAgent = Util.getUserAgent(getContext(), "BakeNMake");
+            MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
+                    getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+
+            player.prepare(mediaSource);
+            player.setPlayWhenReady(true);
+            play_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        //progressDialog.show();
+                        position = 0;
+                        JSONObject next = new JSONObject(RecipeDetailsFragment.mAdapter.getItem(++i));
+                        Log.v("test_tag_next", next.toString());
+
+                        player.prepare(new ExtractorMediaSource(Uri.parse(next.getString("videoURL")),
+                                new DefaultDataSourceFactory(getContext(), userAgent),
+                                new DefaultExtractorsFactory(),
+                                null,
+                                null));
+
+                        descTv.setText(next.getString("description"));
+                        if (!data.getString("thumbnailURL").equalsIgnoreCase(""))
+                            Picasso.with(getContext()).load(next.getString("thumbnailURL")).into(thumbnail);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IndexOutOfBoundsException e) {
+                        Toast.makeText(getContext(), getString(R.string.last_step_msg), Toast.LENGTH_SHORT).show();
+                        //getActivity().onBackPressed();
+                    }
+                }
+            });
+
+            play_previous.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        //progressDialog.show();
+                        position = 0;
+                        JSONObject next = new JSONObject(RecipeDetailsFragment.mAdapter.getItem(--i).toString());
+                        Log.v("test_tag_next", next.toString());
+
+                        player.prepare(new ExtractorMediaSource(Uri.parse(next.getString("videoURL")),
+                                new DefaultDataSourceFactory(getContext(), userAgent),
+                                new DefaultExtractorsFactory(),
+                                null,
+                                null));
+
+                        descTv.setText(next.getString("description"));
+                        if (!data.getString("thumbnailURL").equalsIgnoreCase(""))
+                            Picasso.with(getContext()).load(next.getString("thumbnailURL")).into(thumbnail);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IndexOutOfBoundsException e) {
+                        Toast.makeText(getContext(), getString(R.string.first_step_msg), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
         //}
         return rootView;
     }

@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,9 @@ import android.widget.RemoteViews;
 
 import net.ddns.suyashbakshi.bakenmake.Activity.MainActivity;
 import net.ddns.suyashbakshi.bakenmake.Activity.RecipeDetails;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Implementation of App Widget functionality.
@@ -35,18 +39,19 @@ public class GridWidgetProvider extends AppWidgetProvider {
 
         for (int i = 0; i < appWidgetIds.length; i++) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.grid_widget_provider);
-            Intent adapterIntent = new Intent(context, WidgetService.class);
-            adapterIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
 
-            views.setRemoteAdapter(R.id.widget_grid_view,adapterIntent);
+            SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.widget_pref), Context.MODE_PRIVATE);
+            try {
+                JSONObject fav_item = new JSONObject(preferences.getString(context.getString(R.string.widget_pref), ""));
+                Log.v("Widget_update_check", fav_item.getString("name"));
+                views.setTextViewText(R.id.widget_name_tv, fav_item.getString("name"));
+                views.setTextViewText(R.id.widget_ingredients_tv, fav_item.getString("servings"));
 
-            Intent clickIntent = new Intent(context, RecipeDetails.class);
-            PendingIntent pi = PendingIntent.getActivity(context,0,clickIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-
-            views.setPendingIntentTemplate(R.id.widget_grid_view,pi);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             appWidgetManager.updateAppWidget(appWidgetIds[i],views);
-
-            views.setEmptyView(R.id.widget_grid_view,R.id.empty_view);
+            views.setEmptyView(R.id.widget_name_tv, R.id.empty_view);;
         }
         super.onUpdate(context,appWidgetManager,appWidgetIds);
     }

@@ -2,19 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
     tools:context="net.ddns.suyashbakshi.bakenmake.Activity.MainActivityFragment">
 
-    <GridView
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recipeListView"
-        android:numColumns="auto_fit"
         android:layout_margin="10dp"
-        android:stretchMode="columnWidth"
-        android:columnWidth="130dp"
         android:verticalSpacing="3dp"
         android:horizontalSpacing="3dp"/>
 </RelativeLayout>

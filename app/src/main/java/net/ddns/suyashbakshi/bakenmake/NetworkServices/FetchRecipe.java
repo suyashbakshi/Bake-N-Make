@@ -2,6 +2,7 @@ package net.ddns.suyashbakshi.bakenmake.NetworkServices;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import net.ddns.suyashbakshi.bakenmake.Adapters.MainRecipeListAdapter;
 import net.ddns.suyashbakshi.bakenmake.Utils.Utility;
@@ -32,18 +33,20 @@ public class FetchRecipe extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Utility.result = s;
-        mAdapter.clear();
+
         try {
             JSONArray array = new JSONArray(s);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject item = array.getJSONObject(i);
-                mAdapter.add(item.toString());
+                mAdapter.addItems(item.toString());
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         mAdapter.notifyDataSetChanged();
+        Log.v("Check_insert", String.valueOf(mAdapter.getItemCount()));
+
     }
 
     @Override
